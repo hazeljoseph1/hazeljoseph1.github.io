@@ -1,0 +1,8 @@
+.gitattributes zos-working-tree-encoding=iso8859-1
+.gitignore zos-working-tree-encoding=iso8859-1
+*.html zos-working-tree-encoding=iso8859-1 git-encoding=utf-8
+*.css zos-working-tree-encoding=iso8859-1 git-encoding=utf-8
+*.js zos-working-tree-encoding=iso8859-1 git-encoding=utf-8 
+* text working-tree-encoding=UTF-8
+*.pdf binary
+*.jpg binary

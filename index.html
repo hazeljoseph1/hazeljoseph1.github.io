@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>HazelHub | Computer Science Portfolio</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<script>
+tailwind.config = {
+  darkMode:'class',
+  theme:{
+    extend:{
+      colors:{
+        pink1:"#ffe4f2",
+        pink2:"#f472b6",
+        pink3:"#ec4899",
+        pink4:"#be185d",
+        gold:"#d4af37"
+      }
+    }
+  }
+}
+</script>
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+<style>
+
+/* animated pink aura around profile */
+.profile-glow{
+  position:relative;
+  display:inline-block;
+}
+
+/* moving glow layer */
+.profile-glow::before{
+  content:"";
+  position:absolute;
+  top:50%;
+  left:50%;
+  width:140%;
+  height:140%;
+  transform:translate(-50%, -50%);
+  border-radius:50%;
+  z-index:-1;
+
+  /* dreamy pink gradient */
+  background:radial-gradient(circle at 30% 30%,
+    rgba(255,182,193,.8),
+    rgba(244,114,182,.5),
+    rgba(236,72,153,.25),
+    transparent 70%);
+
+  filter:blur(35px);
+
+  /* movement */
+  animation:auraFloat 6s ease-in-out infinite;
+}
+
+/* floating / breathing motion */
+@keyframes auraFloat{
+  0%{
+    transform:translate(-50%, -50%) scale(1);
+  }
+  25%{
+    transform:translate(-48%, -52%) scale(1.08);
+  }
+  50%{
+    transform:translate(-52%, -48%) scale(1.15);
+  }
+  75%{
+    transform:translate(-49%, -51%) scale(1.08);
+  }
+  100%{
+    transform:translate(-50%, -50%) scale(1);
+  }
+}
+
+
+/* scroll arrow */
+.scroll-arrow{
+  position:absolute;
+  bottom:30px;
+  left:50%;
+  transform:translateX(-50%);
+  font-size:2.5rem;
+  color:#ec4899;
+  animation:bounce 1.6s infinite;
+  transition:.3s;
+}
+
+.scroll-arrow:hover{
+  color:#be185d;
+  transform:translateX(-50%) scale(1.2);
+}
+
+/* bounce animation */
+@keyframes bounce{
+  0%,100%{transform:translate(-50%,0)}
+  50%{transform:translate(-50%,12px)}
+}
+
+html{scroll-behavior:smooth}
+
+/* page fade */
+body{animation:fadePage .6s ease}
+@keyframes fadePage{from{opacity:0}to{opacity:1}}
+
+/* loader */
+#loader{
+position:fixed;
+inset:0;
+background:linear-gradient(135deg,#fff1f7,#ffd1ec);
+display:flex;
+align-items:center;
+justify-content:center;
+z-index:9999;
+font-size:2rem;
+font-weight:bold;
+color:#ec4899;
+}
+
+/* gradient text */
+.gradient-text{
+background:linear-gradient(90deg,#ec4899,#f472b6,#db2777);
+-webkit-background-clip:text;
+color:transparent;
+animation:shine 3s linear infinite;
+background-size:200%;
+}
+@keyframes shine{to{background-position:200%}}
+
+/* glass cards */
+.card{
+background:rgba(255,255,255,.7);
+backdrop-filter:blur(14px);
+transition:.3s;
+}
+.card:hover{
+transform:translateY(-6px);
+box-shadow:0 20px 35px rgba(236,72,153,.2);
+}
+
+/* floating glow blobs */
+.blob{position:fixed;filter:blur(80px);opacity:.35;z-index:-1}
+.b1{width:300px;height:300px;background:#f472b6;top:-80px;left:-80px}
+.b2{width:400px;height:400px;background:#ec4899;bottom:-120px;right:-120px}
+
+/* reveal animation */
+.reveal{opacity:0;transform:translateY(40px);transition:.8s}
+.reveal.show{opacity:1;transform:none}
+
+/* skill bars */
+.bar{height:10px;border-radius:20px;background:#ffe4f2;overflow:hidden}
+.fill{height:100%;background:#ec4899}
+
+/* timeline */
+.timeline{border-left:3px solid #f472b6;padding-left:20px}
+
+/* capitalization */
+nav a{text-transform:capitalize}
+h2{text-transform:uppercase;letter-spacing:1px}
+
+/* dark mode */
+.dark body{background:#1f1020;color:#fff}
+.dark .card{background:rgba(0,0,0,.45)}
+
+@media print{
+nav,#loader,.blob{display:none}
+body{background:white}
+.card{background:white;box-shadow:none}
+}
+</style>
+</head>
+
+<body class="bg-pink1 min-h-screen">
+
+<div id="loader" class="gradient-text">Welcome to HazelHub </div>
+
+<div class="blob b1"></div>
+<div class="blob b2"></div>
+
+<!-- NAV -->
+<nav class="sticky top-0 backdrop-blur bg-white/60 border-b z-50">
+<div class="max-w-6xl mx-auto flex justify-between items-center px-6 py-3">
+<span class="font-bold text-pink3 text-xl">HazelHub</span>
+<div class="space-x-6 hidden md:block">
+<a href="#about">About</a>
+<a href="#experience">Experience</a>
+<a href="#projects">Projects</a>
+<a href="#skills">Skills</a>
+<a href="#contact">Contact</a>
+</div>
+<button onclick="toggleDark()" class="text-pink3 text-lg">
+<i class="fa-solid fa-moon"></i>
+</button>
+</div>
+</nav>
+
+<!-- HERO -->
+<section id="about" class="min-h-screen flex flex-col justify-center items-center text-center px-6">
+<div class="profile-glow mb-6">
+  <img src="profile.jpg" class="w-40 h-40 rounded-full shadow-lg object-cover">
+</div>
+
+<h1 class="text-5xl font-bold gradient-text mb-4">HazelHub</h1>
+
+<p class="text-xl text-pink4 mb-6">Digital Portfolio by Hazel Joseph</p>
+
+<div class="flex justify-center gap-6 text-2xl text-pink3 mb-6">
+<a href="https://github.com/hazeljoseph1"><i class="fab fa-github"></i></a>
+<a href="https://www.linkedin.com/in/hazeljoseph116"><i class="fab fa-linkedin"></i></a>
+<a href="mailto:hazeljoseph116@gmail.com"><i class="fa fa-envelope"></i></a>
+</div>
+
+<a href="Hazels_Resume.pdf" class="bg-gradient-to-r from-pink2 to-pink3 hover:from-pink3 hover:to-pink4 text-white px-8 py-3 rounded-full shadow-lg hover:scale-105 transition">
+Download Resume
+</a>
+</section>
+
+<!-- SCROLL DOWN ARROW -->
+<a href="#experience" class="scroll-arrow">
+  <i class="fa-solid fa-chevron-down"></i>
+</a>
+
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience" class="max-w-5xl mx-auto px-6 py-16 reveal">
+  <h2 class="text-3xl font-bold text-pink3 mb-8">Experience</h2>
+
+  <div class="timeline space-y-8">
+
+    <div class="card p-6 rounded-2xl">
+      <h3 class="font-bold text-pink3">Vice President | z/OSpreys, University of North Florida</h3>
+      <p><strong>IBM Z Student Ambassador</strong></p>
+      <ul class="list-disc pl-5 mt-2">
+        <li>Led workshops and information sessions on tools such as COBOL, JCL, and z/OS to support hands-on learning.</li>
+        <li>Promoted IBM Z technologies by increasing student awareness of enterprise computing and mainframe systems.</li>
+        <li>Mentored students and guided peers through mainframe labs and technical concepts.</li>
+        <li>Connected students with IBM opportunities, including certifications, programs, and career pathways</li>
+      </ul>
+      <p class="text-sm text-pink4 mt-2">Feb. 2026 - Present | Jacksonville, FL</p>
+    </div>
+
+    <div class="card p-6 rounded-2xl">
+      <h3 class="font-bold text-pink3">Public Relations Chair | z/OSpreys, University of North Florida</h3>
+      <ul class="list-disc pl-5 mt-2">
+        <li>Manages club social media presence</li>
+        <li>Increased club member engagement</li>
+      </ul>
+      <p class="text-sm text-pink4 mt-2">Nov. 2025 - Feb. 2026 | Jacksonville, FL</p>
+    </div>
+
+    <div class="card p-6 rounded-2xl">
+  <h3 class="font-bold text-pink3">
+    <a href="https://www.unf.edu/sg/student-funding/index.html" target="_blank" class="underline hover:text-pink4">
+      Budget and Allocations Chair
+    </a> | University of North Florida Student Government
+  </h3>
+  <ul class="list-disc pl-5 mt-2">
+    <li>Streamlined review of 150+ annual requests while overseeing a $6M budget for 300+ organizations</li>
+    <li>Improved the student organization funding process by reducing approval time by 50%</li>
+    <li>Led annual review of over 150 funding requests, facilitating committee meetings and fiscal hearings</li>
+    <li>Collaborated with university executives on long-term financial planning initiatives</li>
+  </ul>
+  <p class="text-sm text-pink4 mt-2">Nov. 2025 - Current | Jacksonville, FL</p>
+</div>
+
+    <div class="card p-6 rounded-2xl">
+  <h3 class="font-bold text-pink3">
+    <a href="https://www.unfalphaphi.com/leadership" target="_blank" class="underline hover:text-pink4">
+      Vice President of Finance
+    </a> | Alpha Phi
+  </h3>
+  <ul class="list-disc pl-5 mt-2">
+    <li>Managed chapter budget while optimizing financial workflows</li>
+    <li>Delivered precise reporting and maintained transparency in spending</li>
+    <li>Actively represented chapter at National Leadership Conference, promoting strategic goals</li>
+  </ul>
+  <p class="text-sm text-pink4 mt-2">Dec. 2024 - Current | Jacksonville, FL</p>
+</div>
+
+  </div>
+</section>
+
+<!-- PROJECTS -->
+
+<section id="projects" class="max-w-6xl mx-auto px-6 py-16 reveal">
+  <h2 class="text-3xl font-bold text-pink3 mb-8">Projects</h2>
+
+  <div class="grid md:grid-cols-2 gap-8">
+
+    <div class="card p-6 rounded-2xl hover:scale-105 transition cursor-pointer" onclick="window.open('https://github.com/hazeljoseph1/SIC-Assembler', '_blank')">
+      <h3 class="font-bold text-pink3">SIC Assembler</h3>
+      <p class="mt-2">
+        A full two-pass SIC assembler written in C that reads SIC assembly code and produces machine code. 
+        Handles opcode lookup, symbol table management, and pass1/pass2 assembly logic. Demonstrates low-level 
+        systems programming and assembler design principles.
+      </p>
+      <p class="mt-4 font-semibold text-pink3 underline hover:text-pink4">
+        View Project on GitHub
+      </p>
+    </div>
+
+    <div class="card p-6 rounded-2xl hover:scale-105 transition cursor-pointer" 
+         onclick="window.open('https://github.com/hazeljoseph1/mortgage/blob/main/mortgage.cbl', '_blank')">
+      <h3 class="font-bold text-pink3">Mortgage Calculator (COBOL)</h3>
+      <p class="mt-2">
+        An Enterprise COBOL-based mortgage calculator that computes monthly payments using loan amount, 
+        interest rate, and term length. Demonstrates financial computation logic, structured 
+        COBOL programming, and real-world business application processing.
+      </p>
+      <p class="mt-4 font-semibold text-pink3 underline hover:text-pink4">
+        View Project on GitHub
+      </p>
+    </div>
+
+    <div class="card p-6 rounded-2xl hover:scale-105 transition cursor-pointer"
+         onclick="window.open('https://github.com/hazeljoseph1/Billhighway', '_blank')">
+      <h3 class="font-bold text-pink3">BillHighway Project</h3>
+      <p class="mt-2">
+        A full-stack web application for financial workflow automation and payment management. 
+        Features secure API integrations, dynamic dashboards, and real-time transaction monitoring, 
+        allowing businesses to streamline billing operations and improve financial efficiency.
+      </p>
+      <p class="mt-4 font-semibold text-pink3 underline hover:text-pink4">
+        View Project on GitHub
+      </p>
+    </div>
+
+    <div class="card p-6 rounded-2xl hover:scale-105 transition cursor-pointer"
+     onclick="window.open('https://github.com/hazeljoseph1/annuity', '_blank')">
+  <h3 class="font-bold text-pink3">Annuity Project</h3>
+  <p class="mt-2">
+    A COBOL-based financial application for calculating and evaluating annuities based on user-supplied parameters. 
+    Features precise amortization calculations, customizable input records, and automated report generation using JCL.
+  </p>
+  <p class="mt-4 font-semibold text-pink3 underline hover:text-pink4">
+    View Project on GitHub
+  </p>
+</div>
+
+    <div class="card p-6 rounded-2xl hover:scale-105 transition cursor-pointer"
+         onclick="window.open('https://docs.google.com/document/d/1YOTPIrN-R4clFte7ywmHxMJp2KZdoLsSjvQL_RsOAH8/edit?usp=sharing', '_blank')">
+      <h3 class="font-bold text-pink3">SHARE Conference Article | Contributing Writer</h3>
+      <p class="mt-2">
+        Selected as a contributing writer for the SHARE Mainframe Conference, authoring an article focused on enterprise computing and IBM Z technologies. 
+        Highlights technical insights, industry trends, and real-world applications within the mainframe environment.
+      </p>
+      <p class="mt-4 font-semibold text-pink3 underline hover:text-pink4">
+        View Article
+      </p>
+    </div>
+    
+
+  </div>
+</section>
+
+
+
+<!-- CERTIFICATIONS -->
+<section id="certifications" class="max-w-6xl mx-auto px-6 py-16 reveal">
+<h2 class="text-3xl font-bold text-pink3 mb-10 text-center">Certifications & Badges</h2>
+
+<div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+
+<!-- Badge -->
+<div class="card p-6 rounded-2xl text-center">
+<img src="https://images.credly.com/size/220x220/images/0f3e4162-ab6b-457c-8c0d-835a14680666/image.png" class="badge-img mb-4">
+<h3 class="font-bold text-pink3 underline hover:text-pink4 cursor-pointer" onclick="window.open('https://www.credly.com/badges/1676e2f3-7078-4849-9bd9-41643902d89d/public_url','_blank')">IBM Z Xplore - Concepts</h3>
+<p class="text-sm">IBM - Issued Sep 6, 2025</p>
+</div>
+
+<div class="card p-6 rounded-2xl text-center">
+<img src="https://images.credly.com/images/9dde9b48-6cec-4bc4-ab33-ffeac5c681c3/image.png" class="badge-img mb-4">
+<h3 class="font-bold text-pink3 underline hover:text-pink4 cursor-pointer" onclick="window.open('https://www.credly.com/badges/481858bc-4958-4944-9eb8-d6ade59377a9/public_url','_blank')">IBM Z Xplore - Advanced</h3>
+<p class="text-sm">IBM - Issued Sep 17, 2025</p>
+</div>
+
+<div class="card p-6 rounded-2xl text-center">
+<img src="https://images.credly.com/images/e4bc9868-9e6f-45be-adc6-8e075dd4e23c/image.png" class="badge-img mb-4">
+<h3 class="font-bold text-pink3 underline hover:text-pink4 cursor-pointer" onclick="window.open('https://www.credly.com/badges/3cb9d2f2-b6b9-4153-a906-039a9fd328e6/public_url','_blank')">COBOL Programming with VSCode</h3>
+<p class="text-sm">IBM - Issued Oct 31, 2025</p>
+</div>
+
+<div class="card p-6 rounded-2xl text-center">
+<img src="https://images.credly.com/images/6723c6fb-7220-4861-81e0-defe48981ba1/IBM_20Z_20Day_202025_20AI_20and_20Data.png" class="badge-img mb-4">
+<h3 class="font-bold text-pink3 underline hover:text-pink4 cursor-pointer" onclick="window.open('https://www.credly.com/badges/1de83b33-fdbc-481c-8c94-83e4ed171569/public_url','_blank')">IBM Z Day 2025 - AI & Data</h3>
+<p class="text-sm">IBM - Issued Dec 3, 2025</p>
+</div>
+
+<div class="card p-6 rounded-2xl text-center">
+<img src="https://images.credly.com/images/9353b9fb-3e78-451f-99b4-4dd70cc01dac/IBM_20Z_20Day_202025_20IBM_20Z_20Skills.png" class="badge-img mb-4">
+<h3 class="font-bold text-pink3 underline hover:text-pink4 cursor-pointer" onclick="window.open('https://www.credly.com/badges/57e2e414-e888-4c50-9983-ed869b29a9d8/public_url','_blank')">IBM Z Day 2025 - IBM Z Skills</h3>
+<p class="text-sm">IBM - Issued Dec 3, 2025</p>
+</div>
+
+<div class="card p-6 rounded-2xl text-center">
+<img src="https://images.credly.com/images/9d1057a7-dd5d-4c0c-b179-0949f268e62f/IBM_20Z_20Day_202025_20Modernization.png" class="badge-img mb-4">
+<h3 class="font-bold text-pink3 underline hover:text-pink4 cursor-pointer" onclick="window.open('https://www.credly.com/badges/897fa065-30b8-4129-af92-8502f53485a1/public_url','_blank')">IBM Z Day 2025 - Modernization</h3>
+<p class="text-sm">IBM - Issued Dec 3, 2025</p>
+</div>
+
+<div class="card p-6 rounded-2xl text-center">
+<img src="https://images.credly.com/images/b5ce7c00-5f78-4fcb-b819-3ff8137500f8/IBM_20Z_20Day_202025_20Security.png" class="badge-img mb-4">
+<h3 class="font-bold text-pink3 underline hover:text-pink4 cursor-pointer" onclick="window.open('https://www.credly.com/badges/44c520a4-5e19-4a8c-b6a8-1b20fc064201/public_url','_blank')">IBM Z Day 2025 - Security</h3>
+<p class="text-sm">IBM - Issued Dec 3, 2025</p>
+</div>
+
+<div class="card p-6 rounded-2xl text-center">
+<img src="https://images.credly.com/images/cf76c04a-d15b-4ca8-8207-7b3269222877/IBM_20Z_20Xplore_20All_20Star.png" class="badge-img mb-4">
+<h3 class="font-bold text-pink3 underline hover:text-pink4 cursor-pointer" onclick="window.open('https://www.credly.com/badges/2de1808c-478e-424f-8f24-0bff00d6d585/public_url','_blank')">IBM Z Xplore - All Star</h3>
+<p class="text-sm">IBM - Issued Dec 6, 2025</p>
+</div>
+
+<div class="card p-6 rounded-2xl text-center">
+<img src="https://images.credly.com/images/7e4b4a5c-ce3d-4d47-ad4e-83747a8da57d/image.png" class="badge-img mb-4">
+<h3 class="font-bold text-pink3 underline hover:text-pink4 cursor-pointer" onclick="window.open('https://www.credly.com/badges/2caa01a7-2cb2-4ad9-8636-712aa968bd53/public_url','_blank')">IBM Developer for z/OS Basics</h3>
+<p class="text-sm">IBM - Issued Jan 23, 2026</p>
+</div>
+
+<div class="card p-6 rounded-2xl text-center">
+<img src="https://images.credly.com/images/b604d488-2a6f-4f36-806f-9f64172a0406/image.png" class="badge-img mb-4">
+<h3 class="font-bold text-pink3 underline hover:text-pink4 cursor-pointer" onclick="window.open('https://www.credly.com/badges/4f115ef7-ea5f-4f7d-ab57-5ac38a4d8ea2/public_url','_blank')">Modernize Applications with IBM CICS</h3>
+<p class="text-sm">IBM - Issued Feb 9, 2026</p>
+</div>
+
+<div class="card p-6 rounded-2xl text-center">
+<img src="https://images.credly.com/images/30922a3d-fc08-4507-bf70-e62a082e05e8/image.png" class="badge-img mb-4">
+<h3 class="font-bold text-pink3 underline hover:text-pink4 cursor-pointer" onclick="window.open('https://www.credly.com/badges/ac25370c-046e-42a0-a9d6-9ed11dcb20b8/public_url','_blank')">IMS Fundamentals</h3>
+<p class="text-sm">IBM - Issued Feb 16, 2026</p>
+</div>
+
+<div class="card p-6 rounded-2xl text-center">
+<img src="https://images.credly.com/images/7bfcd4c3-3b81-41db-8396-12037b44fae7/image.png" class="badge-img mb-4">
+<h3 class="font-bold text-pink3 underline hover:text-pink4 cursor-pointer" onclick="window.open('https://www.credly.com/badges/b8f55134-7746-4424-a387-c4f0854e1d8d/public_url','_blank')">Introduction to IBM z/OS</h3>
+<p class="text-sm">IBM - Issued Feb 19, 2026</p>
+</div>
+
+<div class="card p-6 rounded-2xl text-center">
+<img src="https://images.credly.com/images/cfd8fce1-08b2-4d7b-97e1-f54a48adacaf/Explore_20Emerging_20Tech_201.png" class="badge-img mb-4">
+<h3 class="font-bold text-pink3 underline hover:text-pink4 cursor-pointer" onclick="window.open('https://www.credly.com/badges/989f39d3-c094-4ff3-a4a6-688401e33682/public_url','_blank')">Explore Emerging Tech</h3>
+<p class="text-sm">IBM SkillsBuild - Issued Feb 20, 2026</p>
+</div>
+
+<div class="card p-6 rounded-2xl text-center">
+<img src="https://images.credly.com/images/c29eff7b-eeab-43f8-8ef7-d7943cf65dcd/image.png" class="badge-img mb-4">
+<h3 class="font-bold text-pink3 underline hover:text-pink4 cursor-pointer" onclick="window.open('https://www.credly.com/badges/ffad886a-208c-45de-bce1-a17c4b5e6fc7/public_url','_blank')">z/OS Commands and Panels</h3>
+<p class="text-sm">IBM - Issued Feb 20, 2026</p>
+</div>
+
+<div class="card p-6 rounded-2xl text-center">
+<img src="https://images.credly.com/images/403306a9-ed66-4a7e-bb2c-6daf2931b2da/IBM_20zOS_20Security_20Essentials.png" class="badge-img mb-4">
+<h3 class="font-bold text-pink3 underline hover:text-pink4 cursor-pointer" onclick="window.open('https://www.credly.com/badges/08099214-3b56-49f3-8a5b-1bbb862d3191/public_url','_blank')">IBM z/OS Security Essentials</h3>
+<p class="text-sm">IBM - Issued Feb 20, 2026</p>
+</div>
+
+<div class="card p-6 rounded-2xl text-center">
+<img src="https://images.credly.com/images/3b863758-8c39-4b26-8a84-12a958ae2ff4/image.png" class="badge-img mb-4">
+<h3 class="font-bold text-pink3 underline hover:text-pink4 cursor-pointer" onclick="window.open('https://www.credly.com/badges/6fd91100-c87e-4f66-b567-b51d67752f83/public_url')">z/OS UNIX System Services</h3>
+<p class="text-sm">IBM - Issued Feb 21, 2026</p>
+</div>
+
+<div class="card p-6 rounded-2xl text-center">
+<img src="https://images.credly.com/images/0c4ed540-2e43-4557-b98f-755e57de6dc3/image.png" class="badge-img mb-4">
+<h3 class="font-bold text-pink3 underline hover:text-pink4 cursor-pointer" onclick="window.open('https://www.credly.com/badges/2626bc26-282c-4760-a709-27cdb76574a1/public_url','_blank')">Architecting Applications with IBM Z</h3>
+<p class="text-sm">IBM - Issued Feb 21, 2026</p>
+</div>
+
+<div class="card p-6 rounded-2xl text-center">
+<img src="https://images.credly.com/images/067d8a35-4668-4f66-a6e2-e77ecb857da9/image.png" class="badge-img mb-4">
+<h3 class="font-bold text-pink3 underline hover:text-pink4 cursor-pointer" onclick="window.open('https://www.credly.com/badges/fe1d0c79-e95b-4c16-8f5c-3926c193bc34/public_url','_blank')">System Programming on IBM Z</h3>
+<p class="text-sm">IBM - Issued Feb 21, 2026</p>
+</div>
+
+<div class="card p-6 rounded-2xl text-center">
+<img src="https://images.credly.com/images/032b0e48-6b50-4309-97e4-0551d525a113/image.png" class="badge-img mb-4">
+<h3 class="font-bold text-pink3 underline hover:text-pink4 cursor-pointer" onclick="window.open('https://www.credly.com/badges/ec3d6461-d46c-47a7-9613-b8cccb83a97e/public_url','_blank')">TCP/IP on z/OS Essentials</h3>
+<p class="text-sm">IBM - Issued Feb 21, 2026</p>
+</div>
+
+<div class="card p-6 rounded-2xl text-center">
+<img src="https://images.credly.com/images/e42ec4cf-c794-4f16-b6f1-c86db7e905cf/BadgeEmblem_CodeGenerationAndOptimizationUsingIBMGranite.png" class="badge-img mb-4">
+<h3 class="font-bold text-pink3 underline hover:text-pink4 cursor-pointer" onclick="window.open('https://www.credly.com/badges/d04fbba3-383a-4b87-8d54-a82b036b366f/public_url','_blank')">Code Generation and Optimization Using IBM Granite</h3>
+<p class="text-sm">IBM SkillsBuild - Issued Feb 24, 2026</p>
+</div>
+
+<div class="card p-6 rounded-2xl text-center">
+<img src="https://images.credly.com/images/40a652a3-d423-4874-a16d-31a5695c9dc1/BadgeEmblem_DataClassificationAndSummarizationUsingIBMGranite.png" class="badge-img mb-4">
+<h3 class="font-bold text-pink3 underline hover:text-pink4 cursor-pointer" onclick="window.open('https://www.credly.com/badges/db268b41-3ae3-4d11-a5ad-8480e375ab9a/public_url','_blank')">Data Classification and Summarization Using IBM Granite</h3>
+<p class="text-sm">IBM SkillsBuild - Issued Feb 24, 2026</p>
+</div>
+
+<div class="card p-6 rounded-2xl text-center">
+<img src="https://images.credly.com/images/f3f8fc51-e8e4-4b1e-b9a9-44100cf3c465/Generative_20AI_20Essentials_20Using_20LLMs_20to_20Work_20with_20Data.png" class="badge-img mb-4">
+<h3 class="font-bold text-pink3 underline hover:text-pink4 cursor-pointer" onclick="window.open('https://www.credly.com/badges/afaa1bcc-59f4-4c84-b9cb-d7ce42fb34f3/public_url','_blank')">Generative AI Essentials: Using LLMs to Work with Data</h3>
+<p class="text-sm">IBM SkillsBuild - Issed Feb 24, 2026</p>
+</div>
+
+<div class="card p-6 rounded-2xl text-center">
+<img src="https://images.credly.com/images/bc70837c-99ae-499d-a31d-2a7be79095e6/BadgeEmblem_AILiteracy.png" class="badge-img mb-4">
+<h3 class="font-bold text-pink3 underline hover:text-pink4 cursor-pointer" onclick="window.open('https://www.credly.com/badges/cd6877e8-2848-4482-a80f-fec73c4e53a2/public_url','_blank')">AI Literacy</h3>
+<p class="text-sm">IBM SkillsBuild - Issued Feb 23, 2026</p>
+</div>
+
+<div class="card p-6 rounded-2xl text-center">
+<img src="https://images.credly.com/images/82b908e1-fdcd-4785-9d32-97f11ccbcf08/image.png" class="badge-img mb-4">
+<h3 class="font-bold text-pink3 underline hover:text-pink4 cursor-pointer" onclick="window.open('https://www.credly.com/badges/d9be5c3f-acb4-45a1-9d80-1530382d4001/public_url','_blank')">Artificial Intelligence Fundamentals</h3>
+<p class="text-sm">IBM - Issued Feb 23, 2026</p>
+</div>
+
+<div class="card p-6 rounded-2xl text-center">
+<img src="https://images.credly.com/images/678bcf1d-7baf-4322-9301-3f88d71ef113/blob" class="badge-img mb-4">
+<h3 class="font-bold text-pink3 underline hover:text-pink4 cursor-pointer" 
+onclick="window.open('https://www.credly.com/badges/bc8a75b4-b367-4944-8d58-0a157d3493e0/public_url')">Quantum-Safe Encryption Essentials</h3>
+<p class="text-sm">IBM - Issued Feb 23, 2026</p>
+</div>
+
+<div class="card p-6 rounded-2xl text-center">
+  <img src="https://images.credly.com/size/220x220/images/0889a0f2-f9c7-41db-bc68-b2e7f7dd0238/BadgeEmblem_GettingStartedWithGenerativeAI.png" class="badge-img mb-4">
+  <h3 class="font-bold text-pink3 underline hover:text-pink4 cursor-pointer"
+      onclick="window.open('https://www.credly.com/badges/3b517e6b-43f9-4f16-8ef2-589bdd234bcb/public_url','_blank')">
+    Getting Started with Generative AI
+  </h3>
+  <p class="text-sm">IBM - Issued Feb 22 2026</p>
+</div>
+
+<div class="card p-6 rounded-2xl text-center">
+  <img src="https://images.credly.com/size/220x220/images/0889a0f2-f9c7-41db-bc68-b2e7f7dd0238/BadgeEmblem_GettingStartedWithGenerativeAI.png" class="badge-img mb-4">
+  <h3 class="font-bold text-pink3 underline hover:text-pink4 cursor-pointer"
+      onclick="window.open('https://www.credly.com/badges/3b517e6b-43f9-4f16-8ef2-589bdd234bcb/public_url','_blank')">
+    Getting Started with Generative AI
+  </h3>
+  <p class="text-sm">IBM - Issued Feb 22 2026</p>
+</div>
+
+<!-- z/Architecture Assembler Language - Part 1: The Basics -->
+<div class="card p-6 rounded-2xl text-center">
+<img src="https://images.credly.com/images/12a52c43-7082-44ab-8963-0da67901882c/image.png" class="badge-img mb-4">
+<h3 class="font-bold text-pink3 underline hover:text-pink4 cursor-pointer" onclick="window.open('https://www.credly.com/badges/7521d6cc-11ec-48dd-8057-5623f810eef1/public_url','_blank')">z/Architecture Assembler Language - Part 1: The Basics</h3>
+<p class="text-sm">IBM - Issued Mar 13, 2026</p>
+</div>
+
+<!-- IBM z/OS Mainframe Practitioner -->
+<div class="card p-6 rounded-2xl text-center">
+<img src="https://images.credly.com/images/3c94ec71-118c-48c0-8ffd-58af4fb5bc12/IBM_Certificate_-_zOS_Mainframe_Practitioner.png" class="badge-img mb-4">
+<h3 class="font-bold text-pink3 underline hover:text-pink4 cursor-pointer" onclick="window.open('https://www.credly.com/badges/115b50b8-78aa-4b79-b5d9-1931cd3f29a3/public_url','_blank')">IBM z/OS Mainframe Practitioner</h3>
+<p class="text-sm">IBM - Issued Mar 13, 2026</p>
+</div>
+
+<!-- IBM Z101 -->
+<div class="card p-6 rounded-2xl text-center">
+<img src="https://images.credly.com/images/22acc75c-8099-4403-a558-89478ae937cc/IBM_20Z_20101_20Professional_20Certificate.png" class="badge-img mb-4">
+<h3 class="font-bold text-pink3 underline hover:text-pink4 cursor-pointer" onclick="window.open('https://www.credly.com/badges/41a8ba5a-7f63-4750-a7f9-90b858acb828/public_url','_blank')">IBM Z101</h3>
+<p class="text-sm">IBM - Issued Mar 13, 2026</p>
+</div>
+
+<!-- GDPS Fundamentals -->
+<div class="card p-6 rounded-2xl text-center">
+  <img src="https://images.credly.com/images/74bcf0f8-d139-426c-9493-76a91da38a4b/image.png" class="badge-img mb-4">
+  <h3 class="font-bold text-pink3 underline hover:text-pink4 cursor-pointer" onclick="window.open('https://www.credly.com/badges/a0359e41-4323-4a85-acd2-e1073c4b0763/public_url','_blank')">GDPS Fundamentals</h3>
+  <p class="text-sm">IBM - Issued Mar 13, 2026</p>
+</div>
+
+<!-- IBM Z Resiliency -->
+<div class="card p-6 rounded-2xl text-center">
+<img src="https://images.credly.com/images/822187be-031f-46b7-b39f-23fd8be2b2ac/image.png" class="badge-img mb-4">
+<h3 class="font-bold text-pink3 underline hover:text-pink4 cursor-pointer" onclick="window.open('https://www.credly.com/badges/c90d108e-a138-4a98-98a6-357cfecd7b01/public_url','_blank')">IBM Z Resiliency</h3>
+<p class="text-sm">IBM - Issued Mar 16, 2026</p>
+</div>
+
+<!-- IBM Garage Essentials -->
+<div class="card p-6 rounded-2xl text-center">
+<img src="https://images.credly.com/images/fb718a87-6d0d-4a6d-8068-677f1bec78f2/IBM_Garage_Essentials.png" class="badge-img mb-4">
+<h3 class="font-bold text-pink3 underline hover:text-pink4 cursor-pointer" onclick="window.open('https://www.credly.com/badges/def2f2d8-6376-4022-b2e8-e56ddb7d2358/public_url','_blank')">IBM Garage Essentials</h3>
+<p class="text-sm">IBM - Issued Mar 17, 2026</p>
+</div>
+
+<!-- Build an AI Agent -->
+<div class="card p-6 rounded-2xl text-center">
+<img src="https://images.credly.com/images/d8f30e8e-4c24-42e8-bb15-b106bb082614/BadgeEmblem_BuildAnAIAgent.png" class="badge-img mb-4">
+<h3 class="font-bold text-pink3 underline hover:text-pink4 cursor-pointer" onclick="window.open('https://www.credly.com/badges/ed1d0001-321a-415c-bbc6-909e2cff949d/public_url','_blank')">Build an AI Agent</h3>
+<p class="text-sm">IBM SkillsBuild - Issued Mar 17, 2026</p>
+</div>
+
+<!-- z/OS DFSMS Academy - DFSMShsm Explorer -->
+<div class="card p-6 rounded-2xl text-center">
+<img src="https://images.credly.com/images/5d2d928a-eefc-4cf6-8a4c-386094ef9271/zOS_20DFSMS_20Academy_20_20DFSMShsm_20Explorer.png" class="badge-img mb-4">
+<h3 class="font-bold text-pink3 underline hover:text-pink4 cursor-pointer" onclick="window.open('https://www.credly.com/badges/f997e09f-e006-4e1c-8491-42d9b57b0139/public_url','_blank')">z/OS DFSMS Academy - DFSMShsm Explorer</h3>
+<p class="text-sm">IBM - Issued Mar 18, 2026</p>
+</div>
+
+<!-- Enterprise Design Thinking Practitioner -->
+<div class="card p-6 rounded-2xl text-center">
+<img src="https://images.credly.com/images/520b12b6-dac0-4731-a4f6-e41427201422/BadgeEmblem_EnterpriseDesignThinkingPractitioner.png" class="badge-img mb-4">
+<h3 class="font-bold text-pink3 underline hover:text-pink4 cursor-pointer" onclick="window.open('https://www.credly.com/badges/c4c05e67-b671-48c5-a175-6330dcd84f14/public_url','_blank')">Enterprise Design Thinking Practitioner</h3>
+<p class="text-sm">IBM SkillsBuild - Issued Mar 19, 2026</p>
+</div>
+
+<!-- AI Fundamentals: Foundations for Understanding AI -->
+<div class="card p-6 rounded-2xl text-center">
+<img src="https://images.credly.com/images/e0644ccc-dd87-4e27-82e4-0facf461cd1f/AI_20Fundamentals_20Foundations_20for_20Understanding_20AI.png" class="badge-img mb-4">
+<h3 class="font-bold text-pink3 underline hover:text-pink4 cursor-pointer" onclick="window.open('https://www.credly.com/badges/49ddc683-f6d2-423f-b4b7-8235e2388f13/public_url','_blank')">AI Fundamentals: Foundations for Understanding AI</h3>
+<p class="text-sm">IBM SkillsBuild - Issued Mar 19, 2026</p>
+</div>
+
+<!-- Agile Explorer -->
+<div class="card p-6 rounded-2xl text-center">
+<img src="https://images.credly.com/images/3b7846e2-bdbd-4ed6-8543-182f47502190/image.png" class="badge-img mb-4">
+<h3 class="font-bold text-pink3 underline hover:text-pink4 cursor-pointer" onclick="window.open('https://www.credly.com/badges/ed86bc17-d015-454b-ba54-57cc77c4d244/public_url','_blank')">Agile Explorer</h3>
+<p class="text-sm">IBM SkillsBuild - Issued Mar 20, 2026</p>
+</div>
+
+<!-- Cybersecurity Fundamentals -->
+<div class="card p-6 rounded-2xl text-center">
+<img src="https://images.credly.com/images/50b96632-6cbb-40b7-ac0e-b83f49ff7f94/image.png" class="badge-img mb-4">
+<h3 class="font-bold text-pink3 underline hover:text-pink4 cursor-pointer" onclick="window.open('https://www.credly.com/badges/41c02e67-80f4-4fb0-91f8-45192e5d3463/public_url','_blank')">Cybersecurity Fundamentals</h3>
+<p class="text-sm">IBM SkillsBuild - Issued Mar 21, 2026</p>
+</div>
+
+<!-- AI Fundamentals: Language and Vision in AI -->
+<div class="card p-6 rounded-2xl text-center">
+<img src="https://images.credly.com/images/1c760850-837a-4ffd-bf17-83dee11b1c77/BadgeEmblem_AIFundamentalsLanguageAndVisionInAI.png" class="badge-img mb-4">
+<h3 class="font-bold text-pink3 underline hover:text-pink4 cursor-pointer" onclick="window.open('https://www.credly.com/badges/a12bc1f0-f11c-447b-ba73-f98575bab529/public_url','_blank')">AI Fundamentals: Language and Vision in AI</h3>
+<p class="text-sm">IBM SkillsBuild - Issued Mar 21, 2026</p>
+</div>
+
+</div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills" class="max-w-6xl mx-auto px-6 py-16 reveal relative overflow-hidden">
+  <h2 class="text-4xl font-bold text-pink3 mb-12 text-center">My Skills</h2>
+
+  <!-- Skill Bubbles Container -->
+  <div class="skill-bubbles relative flex flex-wrap justify-center gap-6">
+    <!-- Languages -->
+    <span class="skill-bubble" title="Java">Java</span>
+    <span class="skill-bubble" title="C/C++">C/C++</span>
+    <span class="skill-bubble" title="Python">Python</span>
+    <span class="skill-bubble" title="SQL">SQL</span>
+    <span class="skill-bubble" title="Enterprise COBOL">Enterprise COBOL</span>
+    <span class="skill-bubble" title="JCL">JCL</span>
+    <span class="skill-bubble" title="Assembly Language">Assembly</span>
+
+    <!-- Developer Tools & IDEs -->
+    <span class="skill-bubble" title="VS Code">VS Code</span>
+    <span class="skill-bubble" title="Visual Studio">Visual Studio</span>
+    <span class="skill-bubble" title="IntelliJ IDEA">IntelliJ IDEA</span>
+    <span class="skill-bubble" title="CLion">CLion</span>
+    <span class="skill-bubble" title="Git">Git</span>
+    <span class="skill-bubble" title="Docker">Docker</span>
+    <span class="skill-bubble" title="Ansible">Ansible</span>
+    <span class="skill-bubble" title="API Development">API</span>
+
+    <!-- Systems & Administration -->
+    <span class="skill-bubble" title="Linux">Linux</span>
+    <span class="skill-bubble" title="Unix">Unix</span>
+    <span class="skill-bubble" title="IBM z/OS">IBM z/OS</span>
+    <span class="skill-bubble" title="IBM z/OS Management Facility">z/OSMF</span>
+    <span class="skill-bubble" title="TSO">TSO</span>
+    <span class="skill-bubble" title="ISPF">ISPF</span>
+    <span class="skill-bubble" title="Zowe">Zowe</span>
+    <span class="skill-bubble" title="System Administration">Sys Admin</span>
+
+    <!-- Mainframe & Enterprise -->
+    <span class="skill-bubble" title="IBM Mainframe">IBM Mainframe</span>
+    <span class="skill-bubble" title="IBM DFSMS">IBM DFSMS</span>
+    <span class="skill-bubble" title="IBM RACF">IBM RACF</span>
+    <span class="skill-bubble" title="CICS">CICS</span>
+
+    <!-- AI, ML & Data -->
+    <span class="skill-bubble" title="Artificial Intelligence">AI</span>
+    <span class="skill-bubble" title="AI Agents">AI Agents</span>
+    <span class="skill-bubble" title="Generative AI">Generative AI</span>
+    <span class="skill-bubble" title="AI Content Creation">AI Content Creation</span>
+    <span class="skill-bubble" title="Artificial Neural Networks">ANN</span>
+    <span class="skill-bubble" title="Deep Learning">Deep Learning</span>
+    <span class="skill-bubble" title="Machine Learning">ML</span>
+    <span class="skill-bubble" title="Large Language Models">LLMs</span>
+    <span class="skill-bubble" title="Natural Language Processing">NLP</span>
+    <span class="skill-bubble" title="Computer Vision">Computer Vision</span>
+    <span class="skill-bubble" title="Data Analysis">Data Analysis</span>
+    <span class="skill-bubble" title="Data Classification">Data Classification</span>
+    <span class="skill-bubble" title="Data Literacy">Data Literacy</span>
+    <span class="skill-bubble" title="Data Management">Data Management</span>
+    <span class="skill-bubble" title="Database Development">Database Dev</span>
+    <span class="skill-bubble" title="Code Generation">Code Generation</span>
+    <span class="skill-bubble" title="Code Optimization">Code Optimization</span>
+
+    <!-- Security & Resilience -->
+    <span class="skill-bubble" title="Cybersecurity">Cybersecurity</span>
+    <span class="skill-bubble" title="Cyber Resilience">Cyber Resilience</span>
+    <span class="skill-bubble" title="Cryptography">Cryptography</span>
+    <span class="skill-bubble" title="Threat Detection">Threat Detection</span>
+    <span class="skill-bubble" title="Security">Security</span>
+    <span class="skill-bubble" title="AI Ethics">AI Ethics</span>
+    <span class="skill-bubble" title="Business Continuity Planning">BCP</span>
+
+    <!-- Software & Application Dev -->
+    <span class="skill-bubble" title="Software Development">Software Development</span>
+    <span class="skill-bubble" title="Application Development">App Dev</span>
+    <span class="skill-bubble" title="Agile Software Development">Agile SD</span>
+    <span class="skill-bubble" title="Agile Management">Agile Management</span>
+    <span class="skill-bubble" title="Agile Leadership">Agile Leadership</span>
+
+    <!-- Professional & Analytical -->
+    <span class="skill-bubble" title="Problem Solving">Problem Solving</span>
+    <span class="skill-bubble" title="Analytical Skills">Analytical Skills</span>
+    <span class="skill-bubble" title="Collaboration">Collaboration</span>
+    <span class="skill-bubble" title="Communication Skills">Communication</span>
+    <span class="skill-bubble" title="Career Management">Career Management</span>
+
+    <!-- Misc / Industry Specific -->
+    <span class="skill-bubble" title="Banking Industry">Banking</span>
+    <span class="skill-bubble" title="Cloud Computing">Cloud</span>
+    <span class="skill-bubble" title="Cloud Architecture">Cloud Arch</span>
+    <span class="skill-bubble" title="Chemical Synthesis">Chemical Synth</span>
+    <span class="skill-bubble" title="Chatbots">Chatbots</span>
+    <span class="skill-bubble" title="Customer Information Control Systems">CICS</span>
+    <span class="skill-bubble" title="Command Languages">Command Langs</span>
+    <span class="skill-bubble" title="Paneling">Paneling</span>
+    <span class="skill-bubble" title="Operating Systems">OS</span>
+  </div>
+</section>
+
+<style>
+/* Skill Bubble Styles */
+.skill-bubbles {
+  perspective: 1000px;
+}
+
+.skill-bubble {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  font-size: 1rem;
+  border-radius: 9999px;
+  color: #fff;
+  background: linear-gradient(135deg, #ff6b81, #d6336c);
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, filter 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  user-select: none;
+  position: relative;
+}
+
+.skill-bubble:hover {
+  transform: translateY(-8px) scale(1.1) rotateZ(2deg);
+  box-shadow: 0 8px 30px rgba(255,107,129,0.4);
+  filter: brightness(1.2);
+}
+
+/* Optional: floating animation for extra flair */
+.skill-bubble:nth-child(odd) {
+  animation: floatOdd 6s ease-in-out infinite alternate;
+}
+
+.skill-bubble:nth-child(even) {
+  animation: floatEven 5s ease-in-out infinite alternate;
+}
+
+@keyframes floatOdd {
+  0% { transform: translateY(0) scale(1); }
+  100% { transform: translateY(-8px) scale(1.05); }
+}
+
+@keyframes floatEven {
+  0% { transform: translateY(0) scale(1); }
+  100% { transform: translateY(6px) scale(1.05); }
+}
+</style>
+
+<!-- CONTACT -->
+<section id="contact" class="max-w-4xl mx-auto px-6 py-16 text-center reveal">
+<h2 class="text-3xl font-bold text-pink3 mb-8">Contact</h2>
+<p class="mb-6">Let's connect and build something amazing.</p>
+<a href="mailto:hazeljoseph116@gmail.com" class="bg-pink3 text-white px-8 py-3 rounded-full hover:scale-105 transition">Email Me</a>
+</section>
+
+<script>
+// loader fade
+window.addEventListener("load", () => {
+  const loader = document.getElementById("loader");
+  loader.style.transition = "opacity 0.6s ease";
+  loader.style.opacity = "0";
+  setTimeout(() => loader.remove(), 600);
+});
+
+// dark mode toggle
+function toggleDark(){
+  document.documentElement.classList.toggle("dark");
+}
+
+// reveal on scroll
+const reveals = document.querySelectorAll(".reveal");
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting){
+      entry.target.classList.add("show");
+    }
+  });
+});
+reveals.forEach(r => observer.observe(r));
+</script>
+
+</body>
+</html>
